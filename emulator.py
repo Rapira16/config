@@ -9,6 +9,7 @@ class VirtualFileSystem:
     def __init__(self, archive_file):
         self.archive_file = archive_file
         self.zip_ref = zipfile.ZipFile(archive_file, "a")
+        self.permissions = {}
 
     def get_file_contents(self, file_path):
         with self.zip_ref.open(file_path, "r") as f:
@@ -42,8 +43,7 @@ class VirtualFileSystem:
         self.zip_ref.writestr(info, "")  # create the directory
 
     def change_permissions(self, file_path, permissions):
-        # Not implemented, as permissions are not applicable to files within a zip archive
-        pass
+        self.permissions[file_path] = permissions
 
 class CommandProcessor:
     def __init__(self, vfs):
@@ -118,8 +118,10 @@ class CommandProcessor:
         print(f"Directory {dir_path} created")
 
     def chmod(self, args):
-        # Not implemented, as permissions are not applicable to files within a zip archive
-        pass
+        file_path = args[0]
+        permissions = int(args[1], 8)  # convert octal string to integer
+        self.vfs.change_permissions(file_path, permissions)
+        print(f"Changed permissions of {file_path} to {permissions:o}")
 
 class Emulator:
     def __init__(self, config_file):
