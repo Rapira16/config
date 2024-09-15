@@ -1,9 +1,7 @@
-import os
+
 import zipfile
 import yaml
 import xml.etree.ElementTree as ET
-import unittest
-import stat
 
 class VirtualFileSystem:
     def __init__(self, archive_file):
@@ -58,7 +56,6 @@ class CommandProcessor:
             self.process_command(line)
 
     def process_command(self, user_input):
-        print(user_input)
         command, *args = user_input.split()
         if command == "ls":
             self.ls(args)
@@ -89,7 +86,6 @@ class CommandProcessor:
             self.current_dir = self.join_paths(self.current_dir, "..")
         else:
             self.current_dir = self.join_paths(self.current_dir, dir_path)
-        print(f"Changed directory to {self.current_dir}")
 
     def join_paths(self, path1, path2):
         if path1 == ".":
@@ -118,21 +114,21 @@ class CommandProcessor:
         if not dir_path.startswith("/"):
             dir_path = self.join_paths(self.current_dir, dir_path)
         self.vfs.create_dir(dir_path)
-        print(f"Directory {dir_path} created")
 
     def chmod(self, args):
         file_path = args[0]
         permissions = int(args[1], 8)  # convert octal string to integer
         self.vfs.change_permissions(file_path, permissions)
-        print(f"Changed permissions of {file_path} to {permissions:o}")
 
 class Emulator:
-    def __init__(self, config_file):
+    def __init__(self, config_file, username, computer_name):
         self.config = self.load_config(config_file)
+        self.config["username"] = username
+        self.config["computer_name"] = computer_name
         self.vfs = VirtualFileSystem(self.config["vfs_archive"])
         self.log_file = self.config["log_file"]
         self.start_script = self.config["start_script"]
-        self.command_processor = CommandProcessor(self.vfs, self)  # передаем экземпляр класса Emulator
+        self.command_processor = CommandProcessor(self.vfs, self)
         self.actions = []
 
     def load_config(self, config_file):
@@ -142,7 +138,13 @@ class Emulator:
     def run(self):
         self.command_processor.run_start_script(self.start_script)
         while True:
-            user_input = input(f"{self.config['username']}@{self.config['computer_name']} $ ")
+            current_dir = self.command_processor.current_dir
+            if current_dir == ".":
+                prompt = f"{self.config['username']}@{self.config['computer_name']}~$ "
+            else:
+                current_dir = current_dir.replace("/", " ")  # convert / to spaces for display
+                prompt = f"{self.config['username']}@{self.config['computer_name']}~{'/' + current_dir}$ "
+            user_input = input(prompt)
             self.command_processor.process_command(user_input)
             self.log_action(user_input)
 
@@ -158,7 +160,10 @@ class Emulator:
         tree.write(self.log_file)
 
 if __name__ == "__main__":
-    emulator = Emulator("config.yaml")
+    config_file = "config.yaml"
+    username = input("Enter username: ")
+    computer_name = input("Enter computer name: ")
+    emulator = Emulator(config_file, username, computer_name)
     try:
         emulator.run()
     except KeyboardInterrupt:
