@@ -102,9 +102,9 @@ class CommandProcessor:
 
     def find(self, args):
         pattern = args[0]
-        for file in self.vfs.list_files("."):
-            if pattern in file:
-                print(file)
+        for f in self.vfs.zip_ref.infolist():
+            if pattern in f.filename:
+                print(f.filename)
 
     def mkdir(self, args):
         dir_path = args[0]
