@@ -1,5 +1,0 @@
-username: "user"
-computer_name: "localhost"
-vfs_archive: "vfs.zip"
-log_file: "log.xml"
-start_script: "start.sh"
