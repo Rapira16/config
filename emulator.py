@@ -44,6 +44,7 @@ class VirtualFileSystem:
 class CommandProcessor:
     def __init__(self, vfs):
         self.vfs = vfs
+        self.current_dir = "."
 
     def run_start_script(self, script_file):
         with open(script_file, "r") as f:
@@ -70,7 +71,7 @@ class CommandProcessor:
             print("Unknown command")
 
     def ls(self, args):
-        dir_path = args[0] if args else "."
+        dir_path = args[0] if args else self.current_dir
         files, dirs = self.vfs.list_files(dir_path)
         for file in files:
             print(file)
@@ -78,8 +79,22 @@ class CommandProcessor:
             print(dir)  # add trailing slash to indicate directory
 
     def cd(self, args):
-        # Not implemented, as we're not working with a real file system
-        pass
+        dir_path = args[0] if args else "."
+        if dir_path == "..":
+            self.current_dir = self.join_paths(self.current_dir, "..")
+        else:
+            self.current_dir = self.join_paths(self.current_dir, dir_path)
+        print(f"Changed directory to {self.current_dir}")
+
+    def join_paths(self, path1, path2):
+        if path1 == ".":
+            return path2
+        elif path2 == "..":
+            return self.join_paths("/".join(path1.split("/")[:-1]), "")
+        elif path2 == ".":
+            return path1
+        else:
+            return "/".join([path1, path2]).replace("//", "/")
 
     def exit(self):
         print("Exiting emulator")
