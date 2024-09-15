@@ -35,7 +35,11 @@ class VirtualFileSystem:
         return files, dirs
 
     def create_dir(self, dir_path):
-        self.zip_ref.mkdir(dir_path)
+        if not dir_path.endswith("/"):
+            dir_path += "/"
+        info = zipfile.ZipInfo(dir_path)
+        info.external_attr = 0o755 << 16  # set permissions to 755
+        self.zip_ref.writestr(info, "")  # create the directory
 
     def change_permissions(self, file_path, permissions):
         # Not implemented, as permissions are not applicable to files within a zip archive
@@ -108,7 +112,10 @@ class CommandProcessor:
 
     def mkdir(self, args):
         dir_path = args[0]
+        if not dir_path.startswith("/"):
+            dir_path = self.join_paths(self.current_dir, dir_path)
         self.vfs.create_dir(dir_path)
+        print(f"Directory {dir_path} created")
 
     def chmod(self, args):
         # Not implemented, as permissions are not applicable to files within a zip archive
