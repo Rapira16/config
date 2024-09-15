@@ -46,9 +46,10 @@ class VirtualFileSystem:
         self.permissions[file_path] = permissions
 
 class CommandProcessor:
-    def __init__(self, vfs):
+    def __init__(self, vfs, emulator):
         self.vfs = vfs
         self.current_dir = "."
+        self.emulator = emulator
 
     def run_start_script(self, script_file):
         with open(script_file, "r") as f:
@@ -102,6 +103,8 @@ class CommandProcessor:
 
     def exit(self):
         print("Exiting emulator")
+        self.emulator.log_action("exit")
+        self.emulator.stop()
         exit()
 
     def find(self, args):
@@ -129,7 +132,8 @@ class Emulator:
         self.vfs = VirtualFileSystem(self.config["vfs_archive"])
         self.log_file = self.config["log_file"]
         self.start_script = self.config["start_script"]
-        self.command_processor = CommandProcessor(self.vfs)
+        self.command_processor = CommandProcessor(self.vfs, self)  # передаем экземпляр класса Emulator
+        self.actions = []
 
     def load_config(self, config_file):
         with open(config_file, "r") as f:
@@ -140,13 +144,22 @@ class Emulator:
         while True:
             user_input = input(f"{self.config['username']}@{self.config['computer_name']} $ ")
             self.command_processor.process_command(user_input)
+            self.log_action(user_input)
 
-    def log_action(self, user, action):
+    def log_action(self, user_input):
+        self.actions.append({"user": self.config["username"], "action": user_input})
+
+    def stop(self):
+        self.actions.append({"user": self.config["username"], "action": "exit"})
         root = ET.Element("log")
-        ET.SubElement(root, "action", user=user, action=action)
+        for action in self.actions:
+            ET.SubElement(root, "action", user=action["user"], action=action["action"])
         tree = ET.ElementTree(root)
         tree.write(self.log_file)
 
 if __name__ == "__main__":
     emulator = Emulator("config.yaml")
-    emulator.run()
+    try:
+        emulator.run()
+    except KeyboardInterrupt:
+        emulator.stop()
