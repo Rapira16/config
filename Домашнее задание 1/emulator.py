@@ -140,10 +140,11 @@ class CommandProcessor:
         # Если директория является родительской
         if dir_path == "..":
             # Переходим в родительскую директорию
-            self.current_dir = self.join_paths(self.current_dir, "..")
+            self.current_dir = "."
         else:
             # Переходим в указанную директорию
             self.current_dir = self.join_paths(self.current_dir, dir_path)
+
 
     # Объединение путей
     def join_paths(self, path1, path2):
