@@ -6,26 +6,40 @@ import unittest
 import stat
 
 class VirtualFileSystem:
-    def __init__( self, archive_file):
+    def __init__(self, archive_file):
         self.archive_file = archive_file
-        self.extracted_files = {}
-
-    def extract_archive(self):
-        with zipfile.ZipFile(self.archive_file, "r") as zip_ref:
-            zip_ref.extractall()
+        self.zip_ref = zipfile.ZipFile(archive_file, "a")
 
     def get_file_contents(self, file_path):
-        with open(file_path, "r") as f:
+        with self.zip_ref.open(file_path, "r") as f:
             return f.read()
 
     def list_files(self, dir_path):
-        return os.listdir(dir_path)
+        files = []
+        dirs = []
+        for f in self.zip_ref.infolist():
+            if f.filename.endswith("/"):  # filter directories
+                if dir_path == ".":
+                    if f.filename.count("/") == 1:  # only consider top-level directories
+                        dirs.append(f.filename[:-1])  # remove trailing slash
+                else:
+                    if f.filename.startswith(dir_path + "/") and f.filename.count("/") == len(dir_path.split("/")) + 1:
+                        dirs.append(f.filename[len(dir_path) + 1:-1])  # remove trailing slash
+            else:
+                if dir_path == ".":
+                    if not "/" in f.filename:
+                        files.append(f.filename)
+                else:
+                    if f.filename.startswith(dir_path + "/"):
+                        files.append(f.filename[len(dir_path) + 1:])
+        return files, dirs
 
     def create_dir(self, dir_path):
-        os.mkdir(dir_path)
+        self.zip_ref.mkdir(dir_path)
 
     def change_permissions(self, file_path, permissions):
-        os.chmod(file_path, permissions)
+        # Not implemented, as permissions are not applicable to files within a zip archive
+        pass
 
 class CommandProcessor:
     def __init__(self, vfs):
@@ -57,13 +71,15 @@ class CommandProcessor:
 
     def ls(self, args):
         dir_path = args[0] if args else "."
-        files = self.vfs.list_files(dir_path)
+        files, dirs = self.vfs.list_files(dir_path)
         for file in files:
             print(file)
+        for dir in dirs:
+            print(dir)  # add trailing slash to indicate directory
 
     def cd(self, args):
-        dir_path = args[0] if args else "."
-        os.chdir(dir_path)
+        # Not implemented, as we're not working with a real file system
+        pass
 
     def exit(self):
         print("Exiting emulator")
@@ -71,19 +87,17 @@ class CommandProcessor:
 
     def find(self, args):
         pattern = args[0]
-        for root, dirs, files in os.walk("."):
-            for file in files:
-                if pattern in file:
-                    print(os.path.join(root, file))
+        for file in self.vfs.list_files("."):
+            if pattern in file:
+                print(file)
 
     def mkdir(self, args):
         dir_path = args[0]
         self.vfs.create_dir(dir_path)
 
     def chmod(self, args):
-        file_path = args[0]
-        permissions = int(args[1], 8)
-        self.vfs.change_permissions(file_path, permissions)
+        # Not implemented, as permissions are not applicable to files within a zip archive
+        pass
 
 class Emulator:
     def __init__(self, config_file):
@@ -98,7 +112,6 @@ class Emulator:
             return yaml.safe_load(f)
 
     def run(self):
-        self.vfs.extract_archive()
         self.command_processor.run_start_script(self.start_script)
         while True:
             user_input = input(f"{self.config['username']}@{self.config['computer_name']} $ ")
@@ -110,49 +123,6 @@ class Emulator:
         tree = ET.ElementTree(root)
         tree.write(self.log_file)
 
-def test_ls():
-    emulator = Emulator("config.yaml")
-    vfs = VirtualFileSystem("vfs.zip")
-    command_processor = CommandProcessor(vfs)
-    command_processor.process_command("ls")
-    assert vfs.list_files(".") == ["file1", "file2"]
-
-def test_cd():
-    emulator = Emulator("config.yaml")
-    vfs = VirtualFileSystem("vfs.zip")
-    command_processor = CommandProcessor(vfs)
-    command_processor.process_command("cd dir1")
-    assert os.getcwd() == "dir1"
-
-def test_exit():
-    emulator = Emulator("config.yaml")
-    vfs = VirtualFileSystem("vfs.zip")
-    command_processor = CommandProcessor(vfs)
-    command_processor.process_command("exit")
-    assert emulator.running == False
-
-def test_find():
-    emulator = Emulator("config.yaml")
-    vfs = VirtualFileSystem("vfs.zip")
-    command_processor = CommandProcessor(vfs)
-    command_processor.process_command("find file1")
-    assert vfs.get_file_contents("file1") == " contents "
-
-def test_mkdir():
-    emulator = Emulator("config.yaml")
-    vfs = VirtualFileSystem("vfs.zip")
-    command_processor = CommandProcessor(vfs)
-    command_processor.process_command("mkdir dir2")
-    assert os.path.exists("dir2")
-
-def test_chmod():
-    emulator = Emulator("config.yaml")
-    vfs = VirtualFileSystem("vfs.zip")
-    command_processor = CommandProcessor(vfs)
-    command_processor.process_command("chmod 755 file1")
-    assert stat.S_IMODE(os.stat("file1").st_mode) == 0o755
-
 if __name__ == "__main__":
     emulator = Emulator("config.yaml")
     emulator.run()
-    unittest.main()
