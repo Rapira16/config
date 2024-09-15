@@ -142,8 +142,15 @@ class CommandProcessor:
             # Переходим в родительскую директорию
             self.current_dir = "."
         else:
-            # Переходим в указанную директорию
-            self.current_dir = self.join_paths(self.current_dir, dir_path)
+            # Получаем список файлов и директорий в текущей директории
+            files, dirs = self.vfs.list_files(self.current_dir)
+            # Если директория существует
+            if dir_path in dirs:
+                # Переходим в указанную директорию
+                self.current_dir = self.join_paths(self.current_dir, dir_path)
+            else:
+                # Выводим сообщение об ошибке
+                print(f"Directory '{dir_path}' does not exist")
 
 
     # Объединение путей
