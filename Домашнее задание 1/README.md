@@ -8,6 +8,9 @@ zip. Эмулятор должен работать в режиме CLI.
 
 # Запуск
 Запуск emulator.py: python emulator.py
+```Bash
+python emulator.py
+```
 Обязательно прописать путь к файловой системе в config.yaml
 
 # Команды
@@ -21,6 +24,7 @@ zip. Эмулятор должен работать в режиме CLI.
 # Тесты
 ## ls
 ![](https://github.com/Rapira16/config/blob/main/Домашнее%20задание%201/ls.png)
+![](ls.png)
 ## cd
 ![](https://github.com/Rapira16/config/blob/main/Домашнее%20задание%201/cd.png)
 ## exit
