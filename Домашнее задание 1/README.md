@@ -23,15 +23,14 @@ python emulator.py
 
 # Тесты
 ## ls
-![](https://github.com/Rapira16/config/blob/main/Домашнее%20задание%201/ls.png)
 ![](ls.png)
 ## cd
-![](https://github.com/Rapira16/config/blob/main/Домашнее%20задание%201/cd.png)
+![](cd.png)
 ## exit
-![](https://github.com/Rapira16/config/blob/main/Домашнее%20задание%201/exit.png)
+![](exit.png)
 ## find
-![](https://github.com/Rapira16/config/blob/main/Домашнее%20задание%201/find.png)
+![](find.png)
 ## mkdir
-![](https://github.com/Rapira16/config/blob/main/Домашнее%20задание%201/mkdir.png)
+![](mkdir.png)
 ## chmod
-![](https://github.com/Rapira16/config/blob/main/Домашнее%20задание%201/chmod.png)
+![](chmod.png)
