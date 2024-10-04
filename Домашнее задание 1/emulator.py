@@ -215,11 +215,9 @@ class CommandProcessor:
 
 # Класс эмулятора
 class Emulator:
-    def __init__(self, config_file, username, computer_name):
+    def __init__(self, config_file):
         # Инициализация эмулятора
         self.config = self.load_config(config_file)
-        self.config["username"] = username
-        self.config["computer_name"] = computer_name
         self.vfs = VirtualFileSystem(self.config["vfs_archive"])
         self.log_file = self.config["log_file"]
         self.start_script = self.config["start_script"]
@@ -280,12 +278,8 @@ class Emulator:
 if __name__ == "__main__":
     # Получаем файл конфигурации
     config_file = "config.yaml"
-    # Получаем имя пользователя
-    username = input("Enter username: ")
-    # Получаем имя компьютера
-    computer_name = input("Enter computer name: ")
     # Создаем эмулятор
-    emulator = Emulator(config_file, username, computer_name)
+    emulator = Emulator(config_file)
     # Запускаем эмулятор
     try:
         emulator.run()
