@@ -184,12 +184,12 @@ class CommandProcessor:
 
     # Команда find
     def find(self, args):
-        # Получаем шаблон поиска
-        pattern = args[0]
+        # Получаем шаблоны поиска
+        patterns = args
         # Перебираем все файлы в архиве
         for f in self.vfs.zip_ref.infolist():
- # Если файл соответствует шаблону
-            if pattern in f.filename:
+            # Если файл соответствует хотя бы одному шаблону
+            if any(pattern in f.filename for pattern in patterns):
                 # Выводим файл
                 print(f.filename)
 
@@ -206,12 +206,13 @@ class CommandProcessor:
 
     # Команда chmod
     def chmod(self, args):
-        # Получаем путь файла
-        file_path = args[0]
         # Получаем права доступа
-        permissions = int(args[1], 8)
-        # Изменяем права доступа файла
-        self.vfs.change_permissions(file_path, permissions)
+        permissions = int(args[0], 8)
+        # Получаем пути файлов
+        file_paths = args[1:]
+        # Изменяем права доступа файлов
+        for file_path in file_paths:
+            self.vfs.change_permissions(file_path, permissions)
 
 # Класс эмулятора
 class Emulator:
