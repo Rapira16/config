@@ -1,5 +1,5 @@
-username: "user"
-computer_name: "localhost"
+username: "Han"
+computer_name: "Ubuntu"
 vfs_archive: "vfs.zip"
 log_file: "log.xml"
 start_script: "start.sh"
