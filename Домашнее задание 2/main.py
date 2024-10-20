@@ -27,30 +27,40 @@ def extract_dependencies(nupkg_path, dependencies=None, visited=None):
                             for dep in dep_group.findall('.//n:dependency', ns):
                                 dep_package = dep.attrib['id']
                                 dep_version = dep.attrib['version']
-                                dependencies[dep_package] = dep_version
 
-                                # Рекурсивно извлекаем зависимости для этого пакета
-                                try:
-                                    dep_nupkg_path = f"{os.path.dirname(nupkg_path)}/{dep_package}.{dep_version}.nupkg"
-                                    if os.path.exists(dep_nupkg_path):
-                                        extract_dependencies(dep_nupkg_path, dependencies, visited)
-                                except Exception as e:
-                                    print(f"Ошибка при извлечении зависимостей для {dep_package}: {str(e)}")
+                                if dep_package not in visited:
+                                    dependencies[dep_package] = dep_version
+
+                                    # Рекурсивно извлекаем зависимости для этого пакета
+                                    try:
+                                        dep_nupkg_path = f"{os.path.dirname(nupkg_path)}/{dep_package}.{dep_version}.nupkg"
+                                        if os.path.exists(dep_nupkg_path):
+                                            extract_dependencies(dep_nupkg_path, dependencies, visited)
+                                    except Exception as e:
+                                        print(f"Ошибка при извлечении зависимостей для {dep_package}: {str(e)}")
 
     return dependencies
 
 
 def generate_plantuml(dependencies, main_package):
     plantuml_code = "@startuml\n"
+    added_edges = set()  # Множество для отслеживания добавленных связей
 
-    # Создаем связи между пакетами
+    # Создаем связи между основным пакетом и его зависимостями
     for dep, version in dependencies.items():
-        plantuml_code += f"[{dep} {version}] --> [{main_package}]\n"
+        # Добавляем связь от основного пакета к зависимому пакету
+        plantuml_code += f"[{main_package}] --> [{dep} {version}]\n"
+        added_edges.add((main_package, dep))
 
-        # Добавляем связи между пакетами
-        for other_dep, other_version in dependencies.items():
-            if dep != other_dep:
-                plantuml_code += f"[{dep} {version}] --> [{other_dep} {other_version}]\n"
+        # Рекурсивно добавляем зависимости для каждого зависимого пакета
+        for inner_dep, inner_version in dependencies.items():
+            if inner_dep != dep:
+                edge = (dep, inner_dep)
+                reverse_edge = (inner_dep, dep)
+                # Проверяем, была ли уже добавлена эта связь или обратная связь
+                if edge not in added_edges and reverse_edge not in added_edges:
+                    plantuml_code += f"[{dep} {version}] --> [{inner_dep} {inner_version}]\n"
+                    added_edges.add(edge)
 
     plantuml_code += "@enduml"
     return plantuml_code
