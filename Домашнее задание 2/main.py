@@ -40,12 +40,12 @@ def extract_dependencies(nupkg_path, dependencies=None, visited=None):
     return dependencies
 
 
-def generate_plantuml(dependencies):
+def generate_plantuml(dependencies, main_package):
     plantuml_code = "@startuml\n"
 
     # Создаем связи между пакетами
     for dep, version in dependencies.items():
-        plantuml_code += f"[{dep} {version}] --> [YourPackage]\n"
+        plantuml_code += f"[{dep} {version}] --> [{main_package}]\n"
 
         # Добавляем связи между пакетами
         for other_dep, other_version in dependencies.items():
@@ -63,7 +63,11 @@ def main():
     args = parser.parse_args()
 
     dependencies = extract_dependencies(args.nupkg_path)
-    plantuml_code = generate_plantuml(dependencies)
+
+    # Извлекаем имя основного пакета
+    main_package = os.path.basename(args.nupkg_path).split('.')[0]
+
+    plantuml_code = generate_plantuml(dependencies, main_package)
 
     with open(args.output_path, 'w') as f:
         f.write(plantuml_code)
