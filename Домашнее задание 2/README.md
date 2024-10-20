@@ -32,31 +32,5 @@ python main.py /путь/к/файлу/.nupkg output.puml
 Дополнительные библиотеки устанавливать не требуется.
 
 # Тестирование
-``` ls ``` - Список файлов и директорий
-
-``` cd <path> ``` - Смена директории
-
-``` exit ``` - Выход из эмулятора
-
-``` find <file1> <file2> ... ``` - Вывод пути к файлу
-
-``` mkdir <name> ``` - Создание директории
-
-``` chmod  <number> <file1> <file2> ... ``` - Установка доступа
-
-# Тесты
-## ls
-![](https://github.com/Rapira16/config/blob/main/%D0%94%D0%BE%D0%BC%D0%B0%D1%88%D0%BD%D0%B5%D0%B5%20%D0%B7%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5%201/ls.png)
-## cd
-![](https://github.com/Rapira16/config/blob/main/%D0%94%D0%BE%D0%BC%D0%B0%D1%88%D0%BD%D0%B5%D0%B5%20%D0%B7%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5%201/cd.png)
-## exit
-![](https://github.com/Rapira16/config/blob/main/%D0%94%D0%BE%D0%BC%D0%B0%D1%88%D0%BD%D0%B5%D0%B5%20%D0%B7%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5%201/exit.png)
-## find
-![](https://github.com/Rapira16/config/blob/main/%D0%94%D0%BE%D0%BC%D0%B0%D1%88%D0%BD%D0%B5%D0%B5%20%D0%B7%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5%201/find.png)
-## mkdir
-![](https://github.com/Rapira16/config/blob/main/%D0%94%D0%BE%D0%BC%D0%B0%D1%88%D0%BD%D0%B5%D0%B5%20%D0%B7%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5%201/mkdir.png)
-## chmod
-![](https://github.com/Rapira16/config/blob/main/%D0%94%D0%BE%D0%BC%D0%B0%D1%88%D0%BD%D0%B5%D0%B5%20%D0%B7%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5%201/chmod.png)
-## Общие тесты через pytest
-![](https://github.com/Rapira16/config/blob/main/%D0%94%D0%BE%D0%BC%D0%B0%D1%88%D0%BD%D0%B5%D0%B5%20%D0%B7%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5%201/tests.png)
+![]([https://github.com/Rapira16/config/blob/main/%D0%94%D0%BE%D0%BC%D0%B0%D1%88%D0%BD%D0%B5%D0%B5%20%D0%B7%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5%201/ls.png](https://github.com/Rapira16/config/blob/main/Домашнее%20задание%202/test_package.png))
 
