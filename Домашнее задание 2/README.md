@@ -78,4 +78,6 @@ python main.py /путь/к/файлу/.nupkg output.puml
 Далее идет визуальное отображение зависимотсей для 2-х пакетов
 ![](https://github.com/Rapira16/config/blob/main/Домашнее%20задание%202/test_package.png)
 ![](https://github.com/Rapira16/config/blob/main/Домашнее%20задание%202/test_2.png)
+Тестирование отдельных функций
+![](https://github.com/Rapira16/config/blob/main/Домашнее%20задание%202/tests.png)
 
