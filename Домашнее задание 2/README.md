@@ -79,5 +79,5 @@ python main.py /путь/к/файлу/.nupkg output.puml
 ![](https://github.com/Rapira16/config/blob/main/Домашнее%20задание%202/test_package.png)
 ![](https://github.com/Rapira16/config/blob/main/Домашнее%20задание%202/test_2.png)
 Тестирование отдельных функций
-![](https://github.com/Rapira16/config/blob/main/Домашнее%20задание%202/tests.png)
+![](https://github.com/Rapira16/config/blob/main/%D0%94%D0%BE%D0%BC%D0%B0%D1%88%D0%BD%D0%B5%D0%B5%20%D0%B7%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5%202/tests%20%E2%80%94%20%D0%BA%D0%BE%D0%BF%D0%B8%D1%8F.png)
 
