@@ -49,6 +49,32 @@ python main.py /путь/к/файлу/.nupkg output.puml
 Дополнительные библиотеки устанавливать не требуется.
 
 # Тестирование
+Код на PlantUML
+```
+@startuml
+[newtonsoft] --> [Microsoft.CSharp 4.3.0]
+[Microsoft.CSharp 4.3.0] --> [NETStandard.Library 1.6.1]
+[Microsoft.CSharp 4.3.0] --> [System.ComponentModel.TypeConverter 4.3.0]
+[Microsoft.CSharp 4.3.0] --> [System.Runtime.Serialization.Primitives 4.3.0]
+[Microsoft.CSharp 4.3.0] --> [System.Runtime.Serialization.Formatters 4.3.0]
+[Microsoft.CSharp 4.3.0] --> [System.Xml.XmlDocument 4.3.0]
+[newtonsoft] --> [NETStandard.Library 1.6.1]
+[NETStandard.Library 1.6.1] --> [System.ComponentModel.TypeConverter 4.3.0]
+[NETStandard.Library 1.6.1] --> [System.Runtime.Serialization.Primitives 4.3.0]
+[NETStandard.Library 1.6.1] --> [System.Runtime.Serialization.Formatters 4.3.0]
+[NETStandard.Library 1.6.1] --> [System.Xml.XmlDocument 4.3.0]
+[newtonsoft] --> [System.ComponentModel.TypeConverter 4.3.0]
+[System.ComponentModel.TypeConverter 4.3.0] --> [System.Runtime.Serialization.Primitives 4.3.0]
+[System.ComponentModel.TypeConverter 4.3.0] --> [System.Runtime.Serialization.Formatters 4.3.0]
+[System.ComponentModel.TypeConverter 4.3.0] --> [System.Xml.XmlDocument 4.3.0]
+[newtonsoft] --> [System.Runtime.Serialization.Primitives 4.3.0]
+[System.Runtime.Serialization.Primitives 4.3.0] --> [System.Runtime.Serialization.Formatters 4.3.0]
+[System.Runtime.Serialization.Primitives 4.3.0] --> [System.Xml.XmlDocument 4.3.0]
+[newtonsoft] --> [System.Runtime.Serialization.Formatters 4.3.0]
+[System.Runtime.Serialization.Formatters 4.3.0] --> [System.Xml.XmlDocument 4.3.0]
+[newtonsoft] --> [System.Xml.XmlDocument 4.3.0]
+@enduml
+```
 ![](https://github.com/Rapira16/config/blob/main/Домашнее%20задание%202/test_package.png)
 ![](https://github.com/Rapira16/config/blob/main/Домашнее%20задание%202/test_2.png)
 
