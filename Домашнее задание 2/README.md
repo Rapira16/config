@@ -75,7 +75,7 @@ python main.py /путь/к/файлу/.nupkg output.puml
 [newtonsoft] --> [System.Xml.XmlDocument 4.3.0]
 @enduml
 ```
-Далее идет визуальное отображение зависимотсей для 2-х пакетов
+Далее идет визуальное отображение зависимотсей для 2-х пакетов с помощью стороннего онлайн редактора
 ![](https://github.com/Rapira16/config/blob/main/Домашнее%20задание%202/test_package.png)
 ![](https://github.com/Rapira16/config/blob/main/Домашнее%20задание%202/test_2.png)
 Тестирование отдельных функций
