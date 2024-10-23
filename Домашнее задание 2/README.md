@@ -49,7 +49,7 @@ python main.py /путь/к/файлу/.nupkg output.puml
 Дополнительные библиотеки устанавливать не требуется.
 
 # Тестирование
-Код на PlantUML
+Код на PlantUML для 1 теста.
 ```
 @startuml
 [newtonsoft] --> [Microsoft.CSharp 4.3.0]
@@ -75,6 +75,7 @@ python main.py /путь/к/файлу/.nupkg output.puml
 [newtonsoft] --> [System.Xml.XmlDocument 4.3.0]
 @enduml
 ```
+Далее идет визуальное отображение зависимотсей для 2-х пакетов
 ![](https://github.com/Rapira16/config/blob/main/Домашнее%20задание%202/test_package.png)
 ![](https://github.com/Rapira16/config/blob/main/Домашнее%20задание%202/test_2.png)
 
