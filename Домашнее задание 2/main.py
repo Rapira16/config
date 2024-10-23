@@ -85,4 +85,17 @@ def main():
     dependencies = extract_dependencies(args.nupkg_path)
 
     # Извлекаем имя основного пакета
-    main_package = os
+    main_package = os .path.basename(args.nupkg_path).split('.')[0]
+
+    # Генерируем PlantUML код для визуализации зависимостей
+    plantuml_code = generate_plantuml(dependencies, main_package)
+
+    # Сохраняем PlantUML код в файл
+    with open(args.output_path, 'w') as f:
+        f.write(plantuml_code)
+
+    print(f"PlantUML code has been written to {args.output_path}")  # Выводим сообщение о результате
+
+
+if __name__ == "__main__":
+    main()  # Запуск программы
