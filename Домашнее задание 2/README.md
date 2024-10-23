@@ -50,4 +50,5 @@ python main.py /путь/к/файлу/.nupkg output.puml
 
 # Тестирование
 ![](https://github.com/Rapira16/config/blob/main/Домашнее%20задание%202/test_package.png)
+![](https://github.com/Rapira16/config/blob/main/Домашнее%20задание%202/test_2.png)
 
