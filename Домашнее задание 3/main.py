@@ -1,15 +1,33 @@
-import toml
 import argparse
 import os
 
 
 def parse_toml(input_file):
-    try:
-        with open(input_file, 'r') as f:
-            return toml.load(f)
-    except toml.TomlDecodeError as e:
-        print(f"Ошибка при разборе TOML: {e}")
-        return None
+    toml_data = {}
+    current_section = None
+
+    with open(input_file, 'r') as f:
+        for line in f:
+            line = line.strip()
+            if not line or line.startswith('#'):
+                continue  # Пропустить пустые строки и комментарии
+
+            # Проверка на секцию
+            if line.startswith('[') and line.endswith(']'):
+                current_section = line[1:-1]
+                toml_data[current_section] = {}
+            else:
+                # Разделение ключа и значения
+                if '=' in line:
+                    key, value = line.split('=', 1)
+                    key = key.strip()
+                    value = value.strip().strip('"').strip("'")  # Удаление кавычек
+                    if current_section:
+                        toml_data[current_section][key] = value
+                    else:
+                        toml_data[key] = value
+
+    return toml_data
 
 
 def generate_custom_config(toml_data):
