@@ -31,6 +31,6 @@ python main.py /путь/к/файлу/input.txt /путь/к/файлу/output.
 
 # Тестирование
 В файле input.txt представлен пример преобразования кода
-![]()
+![](https://github.com/Rapira16/config/blob/main/Домашнее%20задание%203/test.png)
 
 
