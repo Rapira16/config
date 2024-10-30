@@ -1,0 +1,10 @@
+server = {
+    host = [[localhost]];
+    port = 8080;
+    timeout = 30;
+}
+database = {
+    user = [[admin]];
+    password = [[secret]];
+    hosts = list(host1, host2, host3);
+}
