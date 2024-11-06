@@ -29,6 +29,34 @@ python main.py /путь/к/файлу/input.txt /путь/к/файлу/output.
 
 Дополнительные библиотеки устанавливать не требуется.
 
+# Пример работы преобразователя
+Входные данные на языке toml
+```
+[server]
+host = "localhost"
+port = 8080
+timeout = 30
+
+[database]
+user = "admin"
+password = "secret"
+hosts = ["host1", "host2", "host3"]
+```
+
+Выходные данные на учебном конфигурационном языке
+```
+server = {
+    host = [[localhost]];
+    port = [[8080]];
+    timeout = [[30]];
+}
+database = {
+    user = [[admin]];
+    password = [[secret]];
+    hosts = [[["host1", "host2", "host3"]]];
+}
+```
+
 # Тестирование
 В файле input.txt представлен пример преобразования кода
 ![](https://github.com/Rapira16/config/blob/main/Домашнее%20задание%203/test.png)
