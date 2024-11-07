@@ -25,6 +25,14 @@ def parse_toml(input_file):
                         key, value = line.split('=', 1)
                         key = key.strip()
                         value = value.strip().strip('"').strip("'")  # Удаление кавычек
+
+                        # Обработка массивов
+                        if value.startswith('[') and value.endswith(']'):
+                            value = value[1:-1].split(',')
+                            value = [v.strip() for v in value]  # Удаление пробелов
+                        else:
+                            value = value  # Оставляем как строку
+
                         if not key:
                             raise SyntaxError(f"Ошибка: пустой ключ на строке {line_number}.")
                         if current_section:
@@ -32,7 +40,8 @@ def parse_toml(input_file):
                         else:
                             toml_data[key] = value
                     else:
-                        raise SyntaxError(f"Ошибка: неверный формат строки на строке {line_number}. Ожидалось 'ключ = значение'.")
+                        raise SyntaxError(
+                            f"Ошибка: неверный формат строки на строке {line_number}. Ожидалось 'ключ = значение'.")
 
     except SyntaxError as e:
         print(f"Синтаксическая ошибка в файле '{input_file}': {e}")
@@ -53,7 +62,8 @@ def generate_custom_config(toml_data):
         elif isinstance(value, (int, float)):
             return str(value)
         elif isinstance(value, list):
-            return f'list({", ".join(map(str, value))})'
+            # Обработка списка, чтобы каждый элемент был в отдельных двойных квадратных скобках
+            return ', '.join([f'[[{item}]]' for item in value])
         else:
             return str(value)
 
@@ -61,12 +71,17 @@ def generate_custom_config(toml_data):
         if isinstance(value, dict):
             lines.append(f"{key} = {{")
             for sub_key, sub_value in value.items():
-                lines.append(f"    {sub_key} = {process_value(sub_value)};")
+                if isinstance(sub_value, list):
+                    # Если sub_value - это список, то обрабатываем его отдельно
+                    formatted_value = ', '.join([f'[[{item}]]' for item in sub_value])
+                    lines.append(f"    {sub_key} = [{formatted_value}];")
+                else:
+                    lines.append(f"    {sub_key} = {process_value(sub_value)};")
             lines.append("}")
         else:
             lines.append(f"var {key} = {process_value(value)};")
 
-    return "\n".join(lines)
+    return "\n".join(lines).replace('"', '')
 
 
 def main():
