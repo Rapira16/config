@@ -61,7 +61,7 @@ server = {
 database = {
     user = [[admin]];
     password = [[secret]];
-    hosts = [[["host1", "host2", "host3"]]];
+    hosts = [[[host1]], [[host2]], [[host3]]];
 }
 ```
 
