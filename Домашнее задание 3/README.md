@@ -54,14 +54,14 @@ hosts = ["host1", "host2", "host3"]
 Выходные данные на учебном конфигурационном языке
 ```
 server = {
-    var host = [[localhost]];
-    var port = [[8080]];
-    var timeout = [[30]];
+    host = [[localhost]];
+    port = [[8080]];
+    timeout = [[30]];
 }
 database = {
-    var user = [[admin]];
-    var password = [[secret]];
-    var hosts = list([[host1]], [[host2]], [[host3]]);
+    user = [[admin]];
+    password = [[secret]];
+    hosts = list([[host1]], [[host2]], [[host3]]);
 }
 ```
 
