@@ -58,9 +58,17 @@ def generate_custom_config(toml_data):
 
     def process_value(value):
         if isinstance(value, str):
-            return f'[[{value}]]'
-        elif isinstance(value, (int, float)):
-            return str(value)
+            # Проверка, является ли строка числом
+            try:
+                if '.' in value:
+                    return float(value)  # Если есть точка, преобразуем в float
+                else:
+                    return int(value)  # Иначе преобразуем в int
+            except ValueError:
+                # Если не число, проверяем, содержит ли строка буквы
+                if any(char.isalpha() for char in value):  # Проверка на наличие букв
+                    return f'[[{value}]]'  # Оборачиваем в [[ ]]
+                return f'"{value}"'  # Если не буквы, возвращаем как строку
         elif isinstance(value, list):
             # Обработка списка, чтобы каждый элемент был в отдельных двойных квадратных скобках
             return ', '.join([f'[[{item}]]' for item in value])
@@ -74,7 +82,7 @@ def generate_custom_config(toml_data):
                 if isinstance(sub_value, list):
                     # Если sub_value - это список, то обрабатываем его отдельно
                     formatted_value = ', '.join([f'[[{item}]]' for item in sub_value])
-                    lines.append(f"    {sub_key} = [{formatted_value}];")
+                    lines.append(f"    {sub_key} = list({formatted_value});")
                 else:
                     lines.append(f"    {sub_key} = {process_value(sub_value)};")
             lines.append("}")
