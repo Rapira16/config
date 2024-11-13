@@ -55,8 +55,8 @@ hosts = ["host1", "host2", "host3"]
 ```
 server = {
     host = [[localhost]];
-    port = [[8080]];
-    timeout = [[30]];
+    port = 8080;
+    timeout = 30;
 }
 database = {
     user = [[admin]];
