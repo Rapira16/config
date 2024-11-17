@@ -46,12 +46,22 @@ def interpret(binary_file, output_file):
                 memory[C] = memory[A]
             elif opcode == 0x3C:  # LESS_THAN
                 A, B = struct.unpack('>B B', f.read(2))
-                C = f.read(1)[0]  # Чтение адреса для результата
+                C = 17 + A  # Используем индекс A для записи результата в C
+
+                # Получаем значения для сравнения
+                value_A = memory[5 + A]
+                value_B = memory[11 + B]
+
+                # Вывод значений для сравнения
+                print(f"Comparing A[{A}] = {value_A} with B[{B}] = {value_B}")
+
                 # Сравниваем значения из памяти
-                if memory[5 + A] < memory[11 + B]:  # Используем правильные индексы
+                if value_A < value_B:
                     memory[C] = 1
+                    print(f"Result: C[{C}] = 1 (True)")
                 else:
                     memory[C] = 0
+                    print(f"Result: C[{C}] = 0 (False)")
 
     # Запись результатов в CSV файл
     with open(output_file, 'w', newline='') as csvfile:
