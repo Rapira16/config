@@ -2,18 +2,22 @@ import sys
 import struct
 import csv
 
+
 def interpret(binary_file, output_file):
     memory = [0] * 256
 
-    # Ввод значений для вектора A
-    print("Введите 6 значений для вектора A:")
-    for i in range(6):
-        memory[5 + i] = int(input(f"A[{i}]: "))
+    # Чтение бинарного файла и извлечение значений векторов A и B
+    with open(binary_file, 'rb') as f:
+        binary_data = f.read()
 
-    # Ввод значений для вектора B
-    print("Введите 6 значений для вектора B:")
+    # Извлечение значений векторов A и B из бинарного кода
+    # Предполагаем, что они хранятся в памяти начиная с индексов 5 и 11
     for i in range(6):
-        memory[11 + i] = int(input(f"B[{i}]: "))
+        memory[5 + i] = binary_data[i * 4 + 2]  # Значения A
+        memory[11 + i] = binary_data[i * 4 + 5]  # Значения B
+
+    print("Вектор A:", memory[5:11])
+    print("Вектор B:", memory[11:17])
 
     # Инициализация вектора C
     for i in range(6):
@@ -36,6 +40,7 @@ def interpret(binary_file, output_file):
         writer = csv.writer(csvfile)
         for i in range(6):
             writer.writerow([f'C[{i}]', memory[17 + i]])
+
 
 if __name__ == "__main__":
     binary_file = sys.argv[1]  # Оставляем это для совместимости, но не используем
