@@ -117,17 +117,17 @@ python interpreter.py output.bin result.csv
 Входные данные
 ```
 LOAD 0 0 0
-LOAD 1 15 1
-LOAD 2 0 2
-LOAD 3 0 3
-LOAD 4 15 4
-LOAD 5 0 5
-LOAD 0 0 6
-LOAD 1 0 7
-LOAD 2 2 8
-LOAD 3 2 9
-LOAD 4 0 10
-LOAD 5 4 11
+LOAD 1 5 1
+LOAD 2 4 2
+LOAD 3 3 3
+LOAD 4 2 4
+LOAD 5 1 5
+LOAD 0 1 6
+LOAD 1 2 7
+LOAD 2 3 8
+LOAD 3 4 9
+LOAD 4 5 10
+LOAD 5 0 11
 LESS_THAN 0 0 12
 LESS_THAN 1 1 13
 LESS_THAN 2 2 14
@@ -138,8 +138,19 @@ LESS_THAN 5 5 17
 
 Векторы
 ```
-A = 0, 15, 0, 0, 15, 0;
-B = 0, 0, 2, 2, 0, 4;
+A = 0, 5, 4, 3, 2, 1;
+B = 1, 2, 3, 4, 5, 0;
+```
+
+Вывод
+```
+C[0],1
+C[1],0
+C[2],0
+C[3],1
+C[4],1
+C[5],0
+
 ```
 
 # Тестирование
